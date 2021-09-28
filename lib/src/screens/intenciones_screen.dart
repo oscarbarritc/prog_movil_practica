@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:practica2/src/utils/color_settings.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class IntencionesScreen extends StatefulWidget {
   IntencionesScreen({Key? key}) : super(key: key);
@@ -32,13 +33,15 @@ class _IntencionesScreenState extends State<IntencionesScreen> {
               leading: Container(
                 height: 40,
                 padding: EdgeInsets.only(right: 10),
-                child: Icon(Icons.language,color: Colors.black,),
-                decoration: BoxDecoration(
-                  border: Border(right: BorderSide(width: 1.0))
+                child: Icon(
+                  Icons.language,
+                  color: Colors.black,
                 ),
+                decoration: BoxDecoration(
+                    border: Border(right: BorderSide(width: 1.0))),
               ),
               trailing: Icon(Icons.chevron_right),
-              onTap: (){},
+              onTap: _abrirweb,
             ),
           ),
           Card(
@@ -55,13 +58,15 @@ class _IntencionesScreenState extends State<IntencionesScreen> {
               leading: Container(
                 height: 40,
                 padding: EdgeInsets.only(right: 10),
-                child: Icon(Icons.phone_android,color: Colors.black,),
-                decoration: BoxDecoration(
-                  border: Border(right: BorderSide(width: 1.0))
+                child: Icon(
+                  Icons.phone_android,
+                  color: Colors.black,
                 ),
+                decoration: BoxDecoration(
+                    border: Border(right: BorderSide(width: 1.0))),
               ),
               trailing: Icon(Icons.chevron_right),
-              onTap: (){},
+              onTap: () {},
             ),
           ),
           Card(
@@ -78,13 +83,15 @@ class _IntencionesScreenState extends State<IntencionesScreen> {
               leading: Container(
                 height: 40,
                 padding: EdgeInsets.only(right: 10),
-                child: Icon(Icons.sms_sharp,color: Colors.black,),
-                decoration: BoxDecoration(
-                  border: Border(right: BorderSide(width: 1.0))
+                child: Icon(
+                  Icons.sms_sharp,
+                  color: Colors.black,
                 ),
+                decoration: BoxDecoration(
+                    border: Border(right: BorderSide(width: 1.0))),
               ),
               trailing: Icon(Icons.chevron_right),
-              onTap: (){},
+              onTap: () {},
             ),
           ),
           Card(
@@ -101,13 +108,15 @@ class _IntencionesScreenState extends State<IntencionesScreen> {
               leading: Container(
                 height: 40,
                 padding: EdgeInsets.only(right: 10),
-                child: Icon(Icons.email_outlined,color: Colors.black,),
-                decoration: BoxDecoration(
-                  border: Border(right: BorderSide(width: 1.0))
+                child: Icon(
+                  Icons.email_outlined,
+                  color: Colors.black,
                 ),
+                decoration: BoxDecoration(
+                    border: Border(right: BorderSide(width: 1.0))),
               ),
               trailing: Icon(Icons.chevron_right),
-              onTap: (){},
+              onTap: () {},
             ),
           ),
           Card(
@@ -124,46 +133,34 @@ class _IntencionesScreenState extends State<IntencionesScreen> {
               leading: Container(
                 height: 40,
                 padding: EdgeInsets.only(right: 10),
-                child: Icon(Icons.camera_alt_outlined,color: Colors.black,),
-                decoration: BoxDecoration(
-                  border: Border(right: BorderSide(width: 1.0))
+                child: Icon(
+                  Icons.camera_alt_outlined,
+                  color: Colors.black,
                 ),
+                decoration: BoxDecoration(
+                    border: Border(right: BorderSide(width: 1.0))),
               ),
               trailing: Icon(Icons.chevron_right),
-              onTap: (){},
+              onTap: () {},
             ),
           )
-          
-    
         ],
       ),
     );
   }
-   
-   abrirweb()
-   {
 
-   }
+  _abrirweb() async {
+    const url = "https://celaya.tecnm.mx/";
+    if (await canLaunch(url)) {
+      await launch(url);
+    }
+  }
 
-   llamadaeelefonica()
-   {
-     
-   }
+  _llamadaeelefonica() {}
 
-   enviarsms()
-   {
-     
-   }
+  _enviarsms() {}
 
-   enviaremail()
-   {
-     
-   }
+  _enviaremail() {}
 
-   tomarfoto()
-   {
-     
-   }
-
-
+  _tomarfoto() {}
 }
