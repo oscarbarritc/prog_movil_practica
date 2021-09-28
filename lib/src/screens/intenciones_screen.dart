@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:practica2/src/utils/color_settings.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:image_picker/image_picker.dart';
 
 class IntencionesScreen extends StatefulWidget {
   IntencionesScreen({Key? key}) : super(key: key);
@@ -66,7 +68,7 @@ class _IntencionesScreenState extends State<IntencionesScreen> {
                     border: Border(right: BorderSide(width: 1.0))),
               ),
               trailing: Icon(Icons.chevron_right),
-              onTap: () {},
+              onTap: _llamadaeelefonica,
             ),
           ),
           Card(
@@ -91,7 +93,7 @@ class _IntencionesScreenState extends State<IntencionesScreen> {
                     border: Border(right: BorderSide(width: 1.0))),
               ),
               trailing: Icon(Icons.chevron_right),
-              onTap: () {},
+              onTap: _enviarsms,
             ),
           ),
           Card(
@@ -102,7 +104,7 @@ class _IntencionesScreenState extends State<IntencionesScreen> {
               subtitle: Row(
                 children: [
                   Icon(Icons.touch_app_rounded, size: 18, color: Colors.red),
-                  Text('To: oscar.barron@itcelaya.edu'),
+                  Text('To: 18030472@itcelaya.edu.mx'),
                 ],
               ),
               leading: Container(
@@ -116,7 +118,7 @@ class _IntencionesScreenState extends State<IntencionesScreen> {
                     border: Border(right: BorderSide(width: 1.0))),
               ),
               trailing: Icon(Icons.chevron_right),
-              onTap: () {},
+              onTap: _enviaremail,
             ),
           ),
           Card(
@@ -141,7 +143,7 @@ class _IntencionesScreenState extends State<IntencionesScreen> {
                     border: Border(right: BorderSide(width: 1.0))),
               ),
               trailing: Icon(Icons.chevron_right),
-              onTap: () {},
+              onTap: _tomarfoto,
             ),
           )
         ],
@@ -156,11 +158,34 @@ class _IntencionesScreenState extends State<IntencionesScreen> {
     }
   }
 
-  _llamadaeelefonica() {}
+  _llamadaeelefonica() async {
+    const url = "tel:4431686363";
+    if (await canLaunch(url)) {
+      await launch(url);
+    }
+  }
 
-  _enviarsms() {}
+  _enviarsms() async {
+    const url = "sms:4431686363";
+    if (await canLaunch(url)) {
+      await launch(url);
+    }
+  }
 
-  _enviaremail() {}
+  _enviaremail() async {
+    final Uri params = Uri(
+        scheme: 'mailto',
+        path: '18030472@itcelaya.edu.mx',
+        query: 'subject=Saludos&body=Bienvenido :)');
 
-  _tomarfoto() {}
+    var email = params.toString();
+    if (await canLaunch(email)) {
+      await launch(email);
+    }
+  }
+
+  _tomarfoto() async {
+    ImagePicker picker = ImagePicker();
+    XFile ? image = await picker.pickImage(source: ImageSource.camera);
+  }
 }
