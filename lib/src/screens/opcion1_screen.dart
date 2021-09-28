@@ -37,7 +37,7 @@ class _PropinaScreen extends State<Opcion1Screen> {
             contenido = "El total es \$ $total";
           } else {
             titulo = "ALERTA";
-            contenido = "Por favor ingrese el monto para calcular su propina";
+            contenido = "Por favor ingrese el monto para calcular el total";
           }
           _showAlertDialog(titulo, contenido);
 
