@@ -4,7 +4,8 @@ import 'package:practica2/src/models/notas_model.dart';
 import 'package:practica2/src/utils/color_settings.dart';
 
 class AgregarNotaScreen extends StatefulWidget {
-  AgregarNotaScreen({Key? key}) : super(key: key);
+  NotasModel? nota;
+  AgregarNotaScreen({Key? key, this.nota}) : super(key: key);
 
   @override
   _AgregarNotaScreenState createState() => _AgregarNotaScreenState();
@@ -19,6 +20,10 @@ class _AgregarNotaScreenState extends State<AgregarNotaScreen> {
   @override
   void initState() {
     // TODO: implement initState
+    if (widget.nota != null) {
+      _controllerTitulo.text = widget.nota!.titulo!;
+      _controllerDetalle.text = widget.nota!.detalle!;
+    }
     _databaseHelper = DatabaseHelper();
   }
 
@@ -27,31 +32,50 @@ class _AgregarNotaScreenState extends State<AgregarNotaScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ColorsSettings.colorPrimary,
-        title: Text('Agregar Nota'),
+        title: widget.nota == null ? Text('Agregar Nota') : Text('Editar Nota'),
       ),
       body: ListView(
         children: [
           _crearTextFieldTitulo(),
-          SizedBox(height: 10,),
+          SizedBox(
+            height: 10,
+          ),
           _crearTextFieldDetalle(),
           ElevatedButton(
             onPressed: () {
-              NotasModel nota = NotasModel(
+              if (widget.nota == null) {
+                NotasModel nota = NotasModel(
+                    titulo: _controllerTitulo.text,
+                    detalle: _controllerDetalle.text);
+                _databaseHelper.insert(nota.toMap()).then((value) {
+                  if (value > 0) {
+                    Navigator.pop(context);
+                    // ScaffoldMessenger.of(context).showSnackBar(
+                    //   SnackBar(content: Text('Registro insertado correctamente'))
+                    // );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('La solicitud no se completo')));
+                  }
+                });
+              }else{
+                NotasModel nota = NotasModel(
+                  id: widget.nota!.id,
                   titulo: _controllerTitulo.text,
-                  detalle: _controllerDetalle.text);
-
-              _databaseHelper.insert(nota.toMap()).then((value) {
-                if (value > 0) {
-                  // Navigator.pop(context);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Registro insertado correctamente'))
-                  );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('La solicitud no se completo'))
-                  );
-                }
-              });
+                  detalle: _controllerDetalle.text
+                );
+                _databaseHelper.update(nota.toMap()).then(
+                  (value){
+                    if ( value > 0) {
+                      Navigator.pop(context);
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('La solicitud no se completo'))
+                      );
+                    }
+                  }
+                );
+              }
             },
             child: Text('Guardar Nota'),
           )

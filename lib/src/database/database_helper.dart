@@ -38,7 +38,7 @@ class DatabaseHelper {
   Future<int> update(Map<String, dynamic> row) async {
     var conexion = await database;
     return conexion!.update(_nombreTBL, row,
-        where: 'id = $row["id"]'); //whereArgs: [row['id']]
+        where: 'id = ?', whereArgs: [row['id']]);
   }
 
   Future<int> delete(int id) async {
