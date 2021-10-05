@@ -34,7 +34,9 @@ class _AgregarNotaScreenState extends State<AgregarNotaScreen> {
         backgroundColor: ColorsSettings.colorPrimary,
         title: widget.nota == null ? Text('Agregar Nota') : Text('Editar Nota'),
       ),
-      body: ListView(
+      body: Center(child: new 
+      ListView(
+        padding: const EdgeInsets.all(10),
         children: [
           _crearTextFieldTitulo(),
           SizedBox(
@@ -64,6 +66,7 @@ class _AgregarNotaScreenState extends State<AgregarNotaScreen> {
                   titulo: _controllerTitulo.text,
                   detalle: _controllerDetalle.text
                 );
+                
                 _databaseHelper.update(nota.toMap()).then(
                   (value){
                     if ( value > 0) {
@@ -80,7 +83,7 @@ class _AgregarNotaScreenState extends State<AgregarNotaScreen> {
             child: Text('Guardar Nota'),
           )
         ],
-      ),
+      )),
     );
   }
 

@@ -186,6 +186,8 @@ class _IntencionesScreenState extends State<IntencionesScreen> {
 
   _tomarfoto() async {
     ImagePicker picker = ImagePicker();
-    XFile ? image = await picker.pickImage(source: ImageSource.camera);
+    XFile? image = await picker.pickImage(source: ImageSource.camera);
+    print("object");
+    print(image);
   }
 }

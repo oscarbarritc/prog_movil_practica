@@ -2,11 +2,6 @@ class NotasModel {
   int? id;
   String? titulo, detalle;
 
-  // NotasModel(int id, String titulo, String detalle) {
-  //   this.id = id;
-  //   this.titulo = titulo;
-  //   this.detalle = detalle;
-  // } esto es igual a NotasModel({this.id, this.titulo, this.detalle});
 
   NotasModel({this.id, this.titulo, this.detalle});
 

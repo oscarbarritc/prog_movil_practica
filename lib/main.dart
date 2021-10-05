@@ -3,6 +3,7 @@ import 'package:practica2/src/screens/agregar_nota_screen.dart';
 import 'package:practica2/src/screens/intenciones_screen.dart';
 import 'package:practica2/src/screens/notas_screen.dart';
 import 'package:practica2/src/screens/opcion1_screen.dart';
+import 'package:practica2/src/screens/profile_screen.dart';
 import 'package:practica2/src/screens/splash_screen.dart';
 
 void main() {
@@ -20,9 +21,10 @@ class MyApp extends StatelessWidget {
         '/intenciones'  : (BuildContext context) => IntencionesScreen(),
         '/notas'        : (BuildContext context) => NotasScreen(),
         '/agregar'      : (BuildContext context) => AgregarNotaScreen(),
+        '/perfil'      : (BuildContext context) => PerfilScreen(),
       },
       debugShowCheckedModeBanner: false,
-      //home: LoginScreen(),
+      
       home: SplashScreen(),
     );
   }
