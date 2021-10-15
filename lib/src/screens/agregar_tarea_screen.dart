@@ -26,10 +26,12 @@ class _AgregarTareaScreenState extends State<AgregarTareaScreen> {
       _controllerNombre.text = widget.tarea!.nomTarea!;
       _controllerDescripcion.text = widget.tarea!.dscTarea!;
       _controllerDate.text = widget.tarea!.fechaEntrega!.toString();
-    }
-    fechaentrega = new DateTime(
+    }else{
+      fechaentrega = new DateTime(
           DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 59);
     _controllerDate.text = (DateFormat('yyyy-MM-dd - kk:mm').format(fechaentrega!));
+    }
+    
     _databaseHelper = DatabaseHelper();
   }
 
