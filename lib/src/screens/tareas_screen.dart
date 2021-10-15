@@ -1,22 +1,21 @@
 import 'dart:ffi';
 import 'package:flutter/material.dart';
-import 'package:practica2/src/database/database_helper.dart';
-import 'package:practica2/src/models/notas_model.dart';
-import 'package:practica2/src/screens/agregar_nota_screen.dart';
-import 'package:practica2/src/utils/color_settings.dart';
 import 'package:intl/intl.dart';
+import 'package:practica2/src/database/database_helper.dart';
+import 'package:practica2/src/models/tareas_model.dart';
+import 'package:practica2/src/screens/agregar_tarea_screen.dart';
+import 'package:practica2/src/utils/checkbox_state.dart';
+import 'package:practica2/src/utils/color_settings.dart';
 
-class NotasScreen extends StatefulWidget {
-  const NotasScreen({Key? key}) : super(key: key);
+class TareasScreen extends StatefulWidget {
+  const TareasScreen({Key? key}) : super(key: key);
 
   @override
-  State<NotasScreen> createState() => _NotasScreenState();
+  State<TareasScreen> createState() => _TareasScreenState();
 }
 
-class _NotasScreenState extends State<NotasScreen> {
+class _TareasScreenState extends State<TareasScreen> {
   late DatabaseHelper _databaseHelper;
-  
-  
   @override
   void initState() {
     super.initState();
@@ -28,26 +27,31 @@ class _NotasScreenState extends State<NotasScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ColorsSettings.colorPrimary,
-        title: Text('Gestion de notas'),
+        title: Text('Gestion de Tareas'),
         actions: [
           IconButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/agregar');
+                Navigator.pushNamed(context, '/tareaentregada');
               },
-              icon: Icon(Icons.note_add))
+              icon: Icon(Icons.library_add_check_outlined)),
+          IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/agregartarea');
+              },
+              icon: Icon(Icons.post_add))
         ],
       ),
       body: FutureBuilder(
-        future: _databaseHelper.getAllnotes(),
+        future: _databaseHelper.getAlltareas(),
         builder:
-            (BuildContext context, AsyncSnapshot<List<NotasModel>> snapshot) {
+            (BuildContext context, AsyncSnapshot<List<TareasModel>> snapshot) {
           if (snapshot.hasError) {
             return Center(
               child: Text('Ocurrio un error en la petición'),
             );
           } else {
             if (snapshot.connectionState == ConnectionState.done) {
-              return _listadoNotas(snapshot.data!);
+              return _listadoTareas(snapshot.data!);
             } else {
               return Center(
                 child: CircularProgressIndicator(),
@@ -59,9 +63,10 @@ class _NotasScreenState extends State<NotasScreen> {
     );
   }
 
-  Widget _listadoNotas(List<NotasModel> notas) {
-    
-
+  Widget _listadoTareas(List<TareasModel> tareas) {
+    DateTime now = DateTime.now();
+    DateTime dateentrega;
+    String formatofecha;
     return RefreshIndicator(
       onRefresh: () {
         return Future.delayed(Duration(seconds: 2), () {
@@ -70,15 +75,69 @@ class _NotasScreenState extends State<NotasScreen> {
       },
       child: ListView.builder(
         itemBuilder: (BuildContext context, index) {
-          NotasModel nota = notas[index];
+          TareasModel tarea = tareas[index];
+          dateentrega = DateTime.parse(tarea.fechaEntrega!);
+          
           return Card(
             child: Column(
               children: [
+                
+                now.isBefore(dateentrega)
+                    ? Text('Estas a tiempo de entregar la tarea',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w900,
+                            color: Colors.white,
+                            backgroundColor: Colors.green))
+                    : Text('Ya debiste de haber entregado esta tarea',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w900,
+                            color: Colors.white,
+                            backgroundColor: Colors.red)),
                 Text(
-                  nota.titulo!,
+                  formatofecha =
+                      DateFormat('yyyy-MM-dd - kk:mm').format(dateentrega),
+                ),
+                Text(
+                  tarea.nomTarea!,
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                Text(nota.detalle!),
+                Text(tarea.dscTarea!),
+                SizedBox(
+                  height: 10,
+                ),
+                ElevatedButton(
+                  onPressed: (){
+                    TareasModel tareacargada = TareasModel(
+                      idTarea: tarea.idTarea,
+                      nomTarea: tarea.nomTarea,
+                      dscTarea: tarea.dscTarea,
+                      fechaEntrega: tarea.fechaEntrega,
+                      entregada: 1
+                    );
+                    _databaseHelper.updatetarea(tareacargada.toMap()).then((value) {
+                      if (value > 0) {
+                        setState(() {
+                        });
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('La solicitud no se completo')));
+                      }
+                    }); 
+                  }, 
+                  child: Column(
+                    children: [
+                      Text("Entregar Tarea"),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Icon(Icons.check_circle_outline_outlined),
+                    ],
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.green,
+                    onPrimary: Colors.white
+                  )
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -87,8 +146,8 @@ class _NotasScreenState extends State<NotasScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => AgregarNotaScreen(
-                                      nota: nota,
+                                builder: (context) => AgregarTareaScreen(
+                                      tarea: tarea,
                                     )));
                       },
                       icon: Icon(Icons.edit),
@@ -101,13 +160,13 @@ class _NotasScreenState extends State<NotasScreen> {
                             builder: (context) {
                               return AlertDialog(
                                 title: Text('Confirmación'),
-                                content: Text('¿Estas segudo del borrado?'),
+                                content: Text('¿Estas seguro de borrar la tarea?'),
                                 actions: [
                                   TextButton(
                                       onPressed: () {
                                         Navigator.pop(context);
                                         _databaseHelper
-                                            .delete(nota.id!)
+                                            .deletetarea(tarea.idTarea!)
                                             .then((noRows) {
                                           if (noRows > 0) {
                                             ScaffoldMessenger.of(context)
@@ -137,7 +196,7 @@ class _NotasScreenState extends State<NotasScreen> {
             ),
           );
         },
-        itemCount: notas.length,
+        itemCount: tareas.length,
       ),
     );
   }
