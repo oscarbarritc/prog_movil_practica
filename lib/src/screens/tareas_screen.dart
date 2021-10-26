@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:practica2/src/database/database_helper.dart';
 import 'package:practica2/src/models/tareas_model.dart';
 import 'package:practica2/src/screens/agregar_tarea_screen.dart';
-import 'package:practica2/src/utils/checkbox_state.dart';
 import 'package:practica2/src/utils/color_settings.dart';
 
 class TareasScreen extends StatefulWidget {
@@ -36,7 +35,7 @@ class _TareasScreenState extends State<TareasScreen> {
               icon: Icon(Icons.library_add_check_outlined)),
           IconButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/agregartarea');
+                Navigator.pushNamed(context, '/agregartarea').whenComplete((){setState(() {});});
               },
               icon: Icon(Icons.post_add))
         ],
@@ -87,7 +86,7 @@ class _TareasScreenState extends State<TareasScreen> {
                         style: TextStyle(
                             fontWeight: FontWeight.w900,
                             color: Colors.white,
-                            backgroundColor: Colors.green))
+                            backgroundColor: Colors.teal[900]))
                     : Text('Ya debiste de haber entregado esta tarea',
                         style: TextStyle(
                             fontWeight: FontWeight.w900,
@@ -134,8 +133,12 @@ class _TareasScreenState extends State<TareasScreen> {
                     ],
                   ),
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.green,
-                    onPrimary: Colors.white
+                    primary: Colors.pink[400],
+                    onPrimary: Colors.white,
+                    shadowColor: Colors.orange,
+                    elevation: 20,
+                    
+                    
                   )
                 ),
                 Row(

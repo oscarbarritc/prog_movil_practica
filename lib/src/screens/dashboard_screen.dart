@@ -100,6 +100,16 @@ class _DaashBoardScreenState extends State<DaashBoardScreen> {
               Navigator.pop(context);
               Navigator.pushNamed(context, '/tareas');
             },
+          ),
+          ListTile(
+            title: Text('Movies'),
+            subtitle: Text('Prueba api'),
+            leading: Icon(Icons.movie),
+            trailing: Icon(Icons.chevron_right),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, '/movie');
+            },
           )
         ],
       )),

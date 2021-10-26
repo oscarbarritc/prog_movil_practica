@@ -10,7 +10,7 @@ class PopularMoviesModel {
   String? posterPath;
   String? releaseDate;
   String? title;
-  int? voteAverage;
+  double? voteAverage;
   int? voteCount;
 
   PopularMoviesModel({
@@ -29,17 +29,31 @@ class PopularMoviesModel {
 
   factory PopularMoviesModel.fromMap(Map<String, dynamic> map) {
     return PopularMoviesModel(
-      backdropPath: map['backdrop_path'],
+      backdropPath: map['backdrop_path'] ?? "",
       id: map['id'],
       originalLanguage: map['original_language'],
       originalTitle: map['original_title'],
       overview: map['overview'],
       popularity: map['popularity'],
-      posterPath: map['poster_path'],
+      posterPath: map['poster_path'] ?? "",
       releaseDate: map['release_date'],
       title: map['title'],
-      voteAverage: map['vote_average'],
+      voteAverage: map['vote_average'] is int ? (map['vote_average'] as int).toDouble() : map['vote_average'],
       voteCount: map['vote_count']
     );
+  }
+  factory PopularMoviesModel.fromMap2(Map<String, dynamic> map) {
+    return PopularMoviesModel(
+      backdropPath: map['backdropPath'] ?? "",
+      title: map['title'],
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'idPelicula': id,
+      'title': title,
+      'backdropPath': backdropPath,
+    };
   }
 }

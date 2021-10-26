@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:practica2/src/models/notas_model.dart';
 import 'package:practica2/src/models/perfil_model.dart';
+import 'package:practica2/src/models/popular_movies_model.dart';
 import 'package:practica2/src/models/tareas_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/sqlite_api.dart';
@@ -9,10 +10,11 @@ import 'package:path/path.dart';
 
 class DatabaseHelper {
   static final _nombreBD = "NOTASBD";
-  static final _versionBD = 5;
+  static final _versionBD = 6;
   static final _nombreTBL = "tblNotas";
   static final _nombreTBLPerfil = "tblPerfil";
   static final _nombreTBLTarea = "tblTarea";
+  static final _nombreTBLFvoriteMovie = "tblFavoriteMovie";
   static Database? _database;
 
   Future<Database?> get database async {
@@ -39,7 +41,7 @@ class DatabaseHelper {
 
   Future<void> _onUpgrade(Database db, int oldversion, int newversion) async {
     await db.execute(
-        "CREATE TABLE $_nombreTBLTarea (idTarea INTEGER PRIMARY KEY,nomTarea VARCHAR(50),dscTarea VARCHAR(1000),fechaEntrega text,entregada bit)");
+        "CREATE TABLE $_nombreTBLFvoriteMovie (idPelicula INTEGER PRIMARY KEY,title VARCHAR(1000),backdropPath VARCHAR(1000))");
   }
 
   Future<int> insert(Map<String, dynamic> row) async {
@@ -134,6 +136,40 @@ class DatabaseHelper {
     return TareasModel.fromMap(result.first);
   }
 
+//peliculas favoritas
+
+  Future<int> insertfavorite(Map<String, dynamic> row) async {
+    
+    var conexion = await database;
+    return conexion!.insert(_nombreTBLFvoriteMovie, row);
+  }
+
+  Future<int> deletefavorite(String title) async {
+    var conexion = await database;
+    return conexion!.delete(_nombreTBLFvoriteMovie, where: 'title = ?', whereArgs: [title]);
+  }
+
+  Future<List<PopularMoviesModel>> getAllFmovies() async {
+    var conexion = await database;
+    var result = await conexion!.query(_nombreTBLFvoriteMovie);
+    return result.map((userMap) => PopularMoviesModel.fromMap2(userMap)).toList();
+  }
+
+  Future<PopularMoviesModel> getfmovie(String title) async {
+    var conexion = await database;
+    var result = await conexion!
+        .query(_nombreTBLFvoriteMovie, where: 'title = ?', whereArgs: [title]);
+
+    if (result.isEmpty) {
+      PopularMoviesModel peli = PopularMoviesModel(
+        title: null,
+        backdropPath: null);
+      return peli;
+    }else{
+      return PopularMoviesModel.fromMap(result.first);
+    }
+    
+  }
 
 //fin
 }

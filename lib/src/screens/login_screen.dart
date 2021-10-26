@@ -75,8 +75,6 @@ class _LoginScreenState extends State<LoginScreen> {
             )
           ),
         ),
-        //LayoutBuilder(builder : (BuildContext context, BoxConstraints constraints){
-          //return SingleChildScrollView(
             Card(
               margin: EdgeInsets.only(left: 15, right: 15, bottom: 20),
               color: Colors.white,

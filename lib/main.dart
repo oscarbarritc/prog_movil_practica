@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:practica2/src/screens/agregar_nota_screen.dart';
 import 'package:practica2/src/screens/agregar_tarea_screen.dart';
 import 'package:practica2/src/screens/intenciones_screen.dart';
+import 'package:practica2/src/screens/movies_screens/detail_screen.dart';
+import 'package:practica2/src/screens/movies_screens/favorite_screen.dart';
+import 'package:practica2/src/screens/movies_screens/popular_screen.dart';
 import 'package:practica2/src/screens/notas_screen.dart';
 import 'package:practica2/src/screens/opcion1_screen.dart';
 import 'package:practica2/src/screens/profile_screen.dart';
@@ -20,14 +23,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: {
-        '/opc1'          : (BuildContext context) => Opcion1Screen(),
-        '/intenciones'   : (BuildContext context) => IntencionesScreen(),
-        '/notas'         : (BuildContext context) => NotasScreen(),
-        '/agregar'       : (BuildContext context) => AgregarNotaScreen(),
-        '/perfil'        : (BuildContext context) => PerfilScreen(),
-        '/tareas'        : (BuildContext context) => TareasScreen(),
-        '/agregartarea'  : (BuildContext context) => AgregarTareaScreen(),
-        '/tareaentregada': (BuildContext context) => TareasEntregadasScreen(),
+        '/opc1'           : (BuildContext context) => Opcion1Screen(),
+        '/intenciones'    : (BuildContext context) => IntencionesScreen(),
+        '/notas'          : (BuildContext context) => NotasScreen(),
+        '/agregar'        : (BuildContext context) => AgregarNotaScreen(),
+        '/perfil'         : (BuildContext context) => PerfilScreen(),
+        '/tareas'         : (BuildContext context) => TareasScreen(),
+        '/agregartarea'   : (BuildContext context) => AgregarTareaScreen(),
+        '/tareaentregada' : (BuildContext context) => TareasEntregadasScreen(),
+        '/movie'          : (BuildContext context) => PopularScreen(),
+        '/detail'         : (BuildContext context) => DetailScreen(),
+        '/favoritas'      : (BuildContext context) => FavoriteScreen(),
       },
       debugShowCheckedModeBanner: false,
       
