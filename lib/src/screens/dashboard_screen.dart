@@ -110,7 +110,17 @@ class _DaashBoardScreenState extends State<DaashBoardScreen> {
               Navigator.pop(context);
               Navigator.pushNamed(context, '/movie');
             },
-          )
+          ),
+          ListTile(
+            title: Text('Video Juegos'),
+            subtitle: Text('Lista de videojuegos'),
+            leading: Icon(Icons.gamepad),
+            trailing: Icon(Icons.chevron_right),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, '/videojuegos');
+            },
+          ),
         ],
       )),
     );

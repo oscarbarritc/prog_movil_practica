@@ -26,6 +26,9 @@ class _CardPopularViewState extends State<CardPopularView> {
 
   @override
   Widget build(BuildContext context) {
+      PopularMoviesModel pelicula;
+    
+    
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
@@ -42,6 +45,7 @@ class _CardPopularViewState extends State<CardPopularView> {
         child: Stack(
           alignment: Alignment.bottomCenter,
           children:[
+            
             Container(
               child: FadeInImage(
                 placeholder: AssetImage('assets/activity_indicator.gif'),
@@ -66,8 +70,9 @@ class _CardPopularViewState extends State<CardPopularView> {
                       onPressed: () async{
                         PopularMoviesModel peli = PopularMoviesModel(
                           title: widget.popular.title,
-                          backdropPath: widget.popular.backdropPath);
-                        PopularMoviesModel pelicula = await _databaseHelper.getfmovie(peli.title!);
+                          backdropPath: widget.popular.backdropPath
+                        );
+                        pelicula = await _databaseHelper.getfmovie(peli.title!);
                         if (pelicula.title == null) {
                           _databaseHelper.insertfavorite(peli.toMap()).then((value) {
                             if (value > 0) {
@@ -83,7 +88,8 @@ class _CardPopularViewState extends State<CardPopularView> {
                                   SnackBar(content: Text('La Pelicula ya esta en la lista de favoritas')));
                         }  
                       },
-                      child: Icon(Icons.favorite, color: Colors.white,),
+                      
+                      child: Icon(Icons.favorite, color: Colors.white),
                     ),
                     MaterialButton(
                       onPressed: (){

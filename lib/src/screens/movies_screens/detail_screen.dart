@@ -275,6 +275,7 @@ class CardVideosView extends StatelessWidget {
         ]
       ),
       child: ClipRRect(
+        
         borderRadius: BorderRadius.circular(10),
         child: Stack(
           alignment: Alignment.bottomCenter,
@@ -282,6 +283,7 @@ class CardVideosView extends StatelessWidget {
             Opacity(
               opacity: .5,
               child: Container(
+                
                 padding: EdgeInsets.only(left: 10),
                 height: 60,
                 color: Colors.black,

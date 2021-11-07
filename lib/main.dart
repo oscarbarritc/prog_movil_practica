@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:practica2/src/screens/agregar_nota_screen.dart';
 import 'package:practica2/src/screens/agregar_tarea_screen.dart';
+import 'package:practica2/src/screens/game_screens/game_detail_screen.dart';
+import 'package:practica2/src/screens/game_screens/videogames_screen.dart';
+import 'package:practica2/src/screens/game_screens/videogames_search_screen%20.dart';
 import 'package:practica2/src/screens/intenciones_screen.dart';
 import 'package:practica2/src/screens/movies_screens/detail_screen.dart';
 import 'package:practica2/src/screens/movies_screens/favorite_screen.dart';
@@ -34,6 +37,10 @@ class MyApp extends StatelessWidget {
         '/movie'          : (BuildContext context) => PopularScreen(),
         '/detail'         : (BuildContext context) => DetailScreen(),
         '/favoritas'      : (BuildContext context) => FavoriteScreen(),
+        '/videojuegos'    : (BuildContext context) => VideoGamesScreen(),
+        '/gamedetail'     : (BuildContext context) => GameDetailScreen(),
+        '/searchgame'     : (BuildContext context) => VideoGamesSearchScreen(),
+        
       },
       debugShowCheckedModeBanner: false,
       
